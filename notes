@@ -1,0 +1,165 @@
+HOOKS
+
+
+CLASS SYSTEM ALREADY USED
+With a class based compoent we would initialize state 
+state = { term: ' ' }
+
+We would change the state
+
+setState({term: 'poop'})
+
+We would reference that state somewhere for it to affect something like render()
+
+render() {
+    <somecompoent item={this.state} >
+}
+
+
+HOOKS 
+With HOOKS we do the same 3 steps but differently
+
+We initialize AND define state with 'useState' and destrucering 
+const [color, setColor] = useState('green')
+
+Then we change state
+
+setColor('blue')
+
+Then we reference 
+
+render() {
+  <div color=({color})
+}
+
+the initializing argument is ignored when we update to blue in example
+
+
+useEffect()
+
+The code must be told when to execute. It will be in 1 of 3 scenerios 
+
+1 = when compoente is rendered for the first time
+
+2= when the component is rendered for the first time AND whever it renders
+
+3 = When the compoent is rendered for the first time AND whever it redners AND some piece of data has changed
+
+It's done like this:
+
+
+1 - an empty array 
+useEffect(() => {
+    console.log("effect")
+  }, []);
+
+2 - nothing as second arg 
+useEffect(() => {
+    console.log("effect")
+  });
+
+3 - array with 1 ore more items
+useEffect(() => {
+    console.log("effect")
+  }, [term]);
+
+It's rare to not see an array empty or filled. Option 2 is rare.
+
+the [term] is called the "dependecy array"
+it will need other things in it depending on what you're using useEffect for. Mostly if you're refercing state of any kind
+[term, results.length]
+
+The basics of the dependecy array are that if anything inside of it changes [term] somewhere in code is term: '' then somewhere else is term: 'foo', then useEffect is rerendered 
+
+
+
+THE THREE WAYS TO MAKE REQUEST WITH useEffect 
+
+You can't do useEffect(async() =>{}) it's not allowed. So instead we have to make a helper function/variable 
+
+useEffect is written like this a lot of the time for the async to work
+1-
+  useEffect(() => {
+   (async () => {
+        await axios.get('okay'); 
+    })();
+    
+  }, [term]);
+
+  it's the same as doing:
+2-
+  useEffect(() => {
+  const search = async () => {
+        await axios.get('okay'); 
+    };
+
+    search();
+    }, [term]);
+
+  The difference is we remove the const search variable and instead use the (); after the async arrow function. Think double parenthesis with the first being the asysnc and the second being the run function command
+
+  ()();
+  and
+  (async)();
+  and
+  (async => {})();
+
+  think in these terms
+
+3-
+  //promises also work
+  axios.get('axiso ver')
+    .then((response) => {
+      console.log(response.data);
+    });
+
+
+with useEffect the initializestate with an arrow function is only allowed to return another function
+
+useEffect(() => {
+  return () => {
+
+  };
+}, [term]);
+
+
+
+
+NOTE ON TIMERS:
+we do 
+  setTimeout(() => console.log('foo')), 100)
+to get a timer of 1 ms before logging foo
+
+When we do this, we also get an integar like 116 returned to us from the setTimeout. This is an identifier. So we can do:
+
+  clearTimeout(116)
+
+this will stop the 1ms timer
+
+
+
+MAKIND DROPDOWN
+
+Event Bubbling 
+
+  when an event happens it becomes an Event Object
+
+when an onClick happens in a compoent that Event Object "bubles" through the elemtents
+
+Let's take Dropdown. WHen dropdown item is clicked, the Event Object (or EO for now) "bubles" to menu div, then to dropdown compoent, then to body, then to whatever is above that. 
+
+html
+  body
+    div#root
+      Dropdown
+        div.ui.from
+          div.ui.selection
+            div.ui.menu
+              div.item (onClick) 
+
+The onClick bubbles up looking for other onClick handlers 
+
+video 177
+how to fix dropdown not closing 
+
+addEventListener (vanila javascript not react) gets called first then react onCLicks from child to parent bubbling. 
