@@ -8,32 +8,32 @@ import Header from './components/Header';
 
 const items = [
   {
-    title: 'What is React?',
-    content: 'front end.'
+    title: 'Where are you?',
+    content: 'No where.'
   },
 
   {
-    title: 'What use React?',
-    content: "It's a fav."
+    title: 'What is your purpose?',
+    content: "To walk the path."
   },
 
   {
-    title: 'How do you use React?',
-    content: 'with your brain.'
+    title: 'How do you do that?',
+    content: 'With my heart.'
   }
 ];
 
 const options = [
   {
-    label: 'The Color Red',
+    label: 'Fine tuned',
     value: 'red'
   },
   {
-    label: 'The Color Green',
+    label: 'Aggressively fast',
     value: 'green'
   },
   {
-    label: 'The Color Blue',
+    label: 'Painfully slow',
     value: 'blue'
   }
 ];
@@ -54,7 +54,7 @@ export default () => {
       </Route>
       <Route path="/dropdown">
         <Dropdown 
-          label="Select a color"
+          label="Selection"
           options={options}
           selected={selected}
           onSelectedChange={setSelected}
